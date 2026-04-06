@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
   Sparkles,
   Zap,
@@ -77,9 +78,15 @@ function MessageBubble({ message }) {
           color: isUser ? 'white' : '#0f172a',
         }}
       >
-        <p className="text-[0.875rem] leading-relaxed whitespace-pre-line">
-          {message.text}
-        </p>
+        {isUser ? (
+          <p className="text-[0.875rem] leading-relaxed whitespace-pre-line">
+            {message.text}
+          </p>
+        ) : (
+          <div className="markdown-content">
+            <ReactMarkdown>{message.text}</ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -95,11 +102,8 @@ function ChatInput({ value, setValue, onSubmit, disabled }) {
 
   return (
     <footer
-      className="absolute bottom-0 left-0 right-0 p-10"
-      style={{
-        background:
-          'linear-gradient(to top, #f7fafc 60%, #f7fafc 80%, transparent)',
-      }}
+      className="shrink-0 p-6 pb-8"
+      style={{ backgroundColor: '#f7fafc' }}
     >
       <div className="max-w-5xl mx-auto">
         <div className="relative group">
@@ -246,12 +250,12 @@ export default function Chat() {
 
   return (
     <main
-      className="flex-1 flex flex-col h-screen relative "
+      className="flex-1 flex flex-col h-screen"
       style={{ backgroundColor: '#f7fafc' }}
     >
       <header
-        className="h-16 flex items-center justify-between px-10 sticky top-0 z-10 backdrop-blur-md"
-        style={{ backgroundColor: 'rgba(247,250,252,0.6)' }}
+        className="h-16 flex items-center justify-between px-10 shrink-0 backdrop-blur-md"
+        style={{ backgroundColor: 'rgba(247,250,252,0.9)' }}
       >
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -266,12 +270,13 @@ export default function Chat() {
         
       </header>
 
-      <section className="flex-1 overflow-y-auto px-10 py-12 flex flex-col gap-6 max-w-5xl mx-auto w-full">
-        {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
-        ))}
-
-        <div ref={bottomRef} className="h-32" />
+      <section className="flex-1 overflow-y-auto px-10 py-8 pb-4">
+        <div className="flex flex-col gap-6 max-w-5xl mx-auto w-full">
+          {messages.map((message) => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
+          <div ref={bottomRef} />
+        </div>
       </section>
 
       <ChatInput

@@ -14,9 +14,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../dist')));
 }
 
-// IDs de los Assistants de OpenAI (configúralos en .env)
-const MAIN_AGENT_ID = process.env.MAIN_AGENT_ID; // Agente de propuesta
-const ANALYTICS_AGENT_ID = process.env.ANALYTICS_AGENT_ID; // Agente analista
+// ID del Assistant de OpenAI (configúralo en .env)
+const MAIN_AGENT_ID = process.env.MAIN_AGENT_ID;
 
 // Almacenamos los threads por sesión
 const sessionThreads = new Map();
@@ -49,8 +48,8 @@ async function runAssistant(threadId, assistantId, message) {
     assistant_id: assistantId
   });
 
-  // Esperar a que termine (polling) - sintaxis para openai v6+
-  let runStatus = await openai.beta.threads.runs.retrieve(run.id, { thread_id: threadId });
+  // Esperar a que termine (polling)
+  let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
   
   while (runStatus.status !== 'completed') {
     if (runStatus.status === 'failed' || runStatus.status === 'cancelled' || runStatus.status === 'expired') {
@@ -63,7 +62,7 @@ async function runAssistant(threadId, assistantId, message) {
     }
     
     await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1s
-    runStatus = await openai.beta.threads.runs.retrieve(run.id, { thread_id: threadId });
+    runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
   }
 
   // Obtener la respuesta
@@ -71,81 +70,6 @@ async function runAssistant(threadId, assistantId, message) {
   const lastMessage = messages.data[0];
   
   return lastMessage.content[0]?.text?.value || 'No hay respuesta';
-}
-
-/**
- * Ejecutar el agente analista (thread separado, sin historial)
- */
-async function runAnalyticsAgent(userMessage, botMessage) {
-  if (!ANALYTICS_AGENT_ID) {
-    console.warn('ANALYTICS_AGENT_ID no configurado');
-    return null;
-  }
-
-  try {
-    // Crear un thread temporal solo para este análisis
-    const thread = await openai.beta.threads.create();
-    
-    const analysisMessage = `Analiza esta interacción:
-
-MENSAJE DEL USUARIO:
-"${userMessage}"
-
-RESPUESTA DEL BOT:
-"${botMessage}"`;
-
-    // Añadir mensaje y ejecutar
-    await openai.beta.threads.messages.create(thread.id, {
-      role: 'user',
-      content: analysisMessage
-    });
-
-    const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: ANALYTICS_AGENT_ID
-    });
-
-    // Esperar respuesta - sintaxis openai v6+
-    let runStatus = await openai.beta.threads.runs.retrieve(run.id, { thread_id: thread.id });
-    
-    while (runStatus.status !== 'completed') {
-      if (runStatus.status === 'failed' || runStatus.status === 'cancelled' || runStatus.status === 'expired') {
-        throw new Error(`Analytics run ${runStatus.status}`);
-      }
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      runStatus = await openai.beta.threads.runs.retrieve(run.id, { thread_id: thread.id });
-    }
-
-    const messages = await openai.beta.threads.messages.list(thread.id);
-    const response = messages.data[0].content[0]?.text?.value || '{}';
-
-    // Parsear JSON
-    const cleanedResponse = response
-      .replace(/```json\n?/g, '')
-      .replace(/```\n?/g, '')
-      .trim();
-    
-    return JSON.parse(cleanedResponse);
-
-  } catch (error) {
-    console.error('Error en agente analista:', error);
-    
-    // Devolver objeto por defecto si falla
-    return {
-      event: 'chatbot_interaction',
-      tono: 'neutral',
-      resolucion: 'no_resuelta',
-      intencion: 'pregunta_general',
-      etapa_funnel: 'descubrimiento',
-      respuesta_completa: true,
-      requiere_seguimiento: false,
-      mensaje_usuario: userMessage,
-      mensaje_bot: botMessage,
-      longitud_mensaje_usuario: userMessage.length,
-      longitud_mensaje_bot: botMessage.length,
-      timestamp: new Date().toISOString(),
-      error: true
-    };
-  }
 }
 
 /**
@@ -173,20 +97,8 @@ app.post('/api/chat', async (req, res) => {
     const reply = await runAssistant(threadId, MAIN_AGENT_ID, message);
     console.log('🤖 Respuesta del agente:', reply.substring(0, 100) + '...');
 
-    // 3. Ejecutar el agente analista (no bloquea la respuesta principal)
-    let analyticsData = null;
-    try {
-      analyticsData = await runAnalyticsAgent(message, reply);
-      console.log('📊 Analytics:', analyticsData?.intencion);
-    } catch (analyticsError) {
-      console.error('Error en analytics (no crítico):', analyticsError.message);
-    }
-
-    // 4. Responder
-    res.json({ 
-      reply,
-      analytics: analyticsData
-    });
+    // 3. Responder
+    res.json({ reply });
 
   } catch (err) {
     console.error('Error en /api/chat:', err);
@@ -225,7 +137,6 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok',
     mainAgentConfigured: !!MAIN_AGENT_ID,
-    analyticsAgentConfigured: !!ANALYTICS_AGENT_ID,
     timestamp: new Date().toISOString() 
   });
 });
@@ -241,5 +152,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server en http://localhost:${PORT}`);
   console.log(`Main Agent ID: ${MAIN_AGENT_ID ? '✓ Configurado' : '✗ No configurado'}`);
-  console.log(`Analytics Agent ID: ${ANALYTICS_AGENT_ID ? '✓ Configurado' : '✗ No configurado'}`);
 });
