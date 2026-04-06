@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f7fafc;
+color: #283439;
+}
+
+::-webkit-scrollbar {
+width: 4px;
+}
+::-webkit-scrollbar-track {
+background: transparent;
+}
+::-webkit-scrollbar-thumb {
+background: #dfeaef;
+border-radius: 10px;
+}
+
+.message-bubble {
+transition: all 0.3s ease-out;
+}
+
+.gradient-cta {
+background: linear-gradient(135deg, #095fae 0%, #00539b 100%);
+}
+
+
+::-webkit-scrollbar {
+width: 4px;
+}
