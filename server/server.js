@@ -24,11 +24,25 @@ const sessionThreads = new Map();
  * Obtener o crear un thread para la sesión
  */
 async function getOrCreateThread(sessionId) {
+  if (!sessionId) {
+    throw new Error('sessionId es requerido');
+  }
+
+  // Si ya existe un thread para esta sesión, devolverlo
   if (sessionThreads.has(sessionId)) {
-    return sessionThreads.get(sessionId);
+    const existingThreadId = sessionThreads.get(sessionId);
+    console.log('📎 Reutilizando thread existente:', existingThreadId);
+    return existingThreadId;
   }
   
+  // Crear nuevo thread
   const thread = await openai.beta.threads.create();
+  
+  if (!thread || !thread.id) {
+    throw new Error('No se pudo crear el thread en OpenAI');
+  }
+
+  console.log('✨ Nuevo thread creado:', thread.id);
   sessionThreads.set(sessionId, thread.id);
   return thread.id;
 }
@@ -37,6 +51,19 @@ async function getOrCreateThread(sessionId) {
  * Ejecutar un Assistant y esperar la respuesta
  */
 async function runAssistant(threadId, assistantId, message) {
+  // Validar parámetros
+  if (!threadId) {
+    throw new Error('threadId es requerido');
+  }
+  if (!assistantId) {
+    throw new Error('assistantId es requerido');
+  }
+  if (!message) {
+    throw new Error('message es requerido');
+  }
+
+  console.log('🔄 Ejecutando assistant:', { threadId, assistantId, messageLength: message.length });
+
   // Añadir mensaje del usuario al thread
   await openai.beta.threads.messages.create(threadId, {
     role: 'user',
