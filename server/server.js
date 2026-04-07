@@ -70,26 +70,17 @@ async function runAssistant(threadId, assistantId, message) {
     content: message
   });
 
-  // Ejecutar el assistant
-  const run = await openai.beta.threads.runs.create(threadId, {
+  // Ejecutar el assistant y esperar a que termine (usa createAndPoll que es más robusto)
+  console.log('🏃 Creando run y esperando respuesta...');
+  
+  const run = await openai.beta.threads.runs.createAndPoll(threadId, {
     assistant_id: assistantId
   });
 
-  // Esperar a que termine (polling)
-  let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
-  
-  while (runStatus.status !== 'completed') {
-    if (runStatus.status === 'failed' || runStatus.status === 'cancelled' || runStatus.status === 'expired') {
-      throw new Error(`Run ${runStatus.status}: ${runStatus.last_error?.message || 'Unknown error'}`);
-    }
-    
-    // Si requiere acción, manejar (por ahora solo loggear)
-    if (runStatus.status === 'requires_action') {
-      throw new Error('El assistant requiere acciones que no están implementadas');
-    }
-    
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1s
-    runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
+  console.log('📊 Run completado con estado:', run.status);
+
+  if (run.status !== 'completed') {
+    throw new Error(`Run terminó con estado: ${run.status}. Error: ${run.last_error?.message || 'Unknown error'}`);
   }
 
   // Obtener la respuesta
