@@ -7,6 +7,8 @@ Copy,
 CheckCircle2,
 Rocket,
 } from 'lucide-react';
+import DiscountBanner from '../components/DiscountBanner';
+import Chatling from '../components/Chatling';
 
 /* ── Reutilizable: número de paso ─────────────────────────── */
 function StepBadge({ number, active = false }) {
@@ -39,7 +41,7 @@ const DATA_MAP = [
 ];
 
 /* ════════════════════════════════════════════════════════════ */
-export default function GA4IQ() {
+export default function ChatlingIQ() {
 return (
   <>
     {/* ── Header ── */}
@@ -49,7 +51,7 @@ return (
           Implementation Guide
         </span>
         <h2 className="text-5xl font-extrabold tracking-tight text-slate-800 leading-tight">
-          Google Analytics 4
+          Chatling
         </h2>
       </div>
       <div className="text-right pb-2">
@@ -140,119 +142,18 @@ return (
                   </p>
                 </div>
               </div>
+              <Chatling / >
             </StepCard>
           </div>
         </div>
       </article>
 
-      {/* ── 03 Mapeo de Datos ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={3} />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Mapeo de Datos</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Vincule sus variables del Data Layer a los parámetros específicos de Google
-                Analytics 4. Esto asegura que la semántica de los datos se mantenga íntegra.
-              </p>
-              <div className="overflow-hidden rounded-md border border-slate-200">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-100 text-slate-500 uppercase text-[10px] font-bold">
-                    <tr>
-                      <th className="px-6 py-4">Data Source Variable</th>
-                      <th className="px-6 py-4 text-center">
-                        <ArrowRight size={14} className="inline-block" />
-                      </th>
-                      <th className="px-6 py-4">GA4 Destination</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {DATA_MAP.map(({ source, dest }) => (
-                      <tr key={source} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 font-mono text-blue-700">{source}</td>
-                        <td className="px-6 py-4 text-center text-slate-400">→</td>
-                        <td className="px-6 py-4 font-medium text-slate-700">{dest}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </StepCard>
-          </div>
-        </div>
-      </article>
+      
 
-      {/* ── 04 Añadir Load Rule ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={4} />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Añadir Load Rule</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Determine bajo qué condiciones se debe cargar esta etiqueta. Recomendamos
-                utilizar una regla de exclusión para entornos de desarrollo si se encuentra
-                en producción.
-              </p>
-              <div className="flex flex-col gap-4">
-                {/* Active rule */}
-                <div className="p-6 rounded-lg bg-slate-100 border-l-4 border-blue-700">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-bold text-blue-700 uppercase">
-                      Active Rule
-                    </span>
-                    <CheckCircle2
-                      size={18}
-                      className="text-blue-700"
-                      fill="currentColor"
-                      strokeWidth={1}
-                    />
-                  </div>
-                  <p className="font-bold text-slate-800 mb-2">All Pages Except Dev</p>
-                  <code className="text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded">
-                    domain IS NOT EQUAL TO dev.example.com
-                  </code>
-                </div>
-
-                {/* CTA */}
-                <button className="mt-4 flex items-center justify-center gap-2 py-4 px-6 bg-gradient-to-br from-blue-700 to-blue-800 text-white rounded-lg font-bold shadow-lg hover:opacity-90 active:scale-[0.99] transition-all">
-                  Finalizar Configuración
-                  <Rocket size={17} />
-                </button>
-              </div>
-            </StepCard>
-          </div>
-        </div>
-      </article>
+      
     </section>
 
-    {/* ── Footer ── */}
-    <footer className="max-w-4xl mx-auto mt-32 pt-12 border-t border-slate-200 flex flex-col md:flex-row justify-between items-start gap-8 opacity-60">
-      <div className="max-w-xs">
-        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-          System Integrity
-        </h4>
-        <p className="text-[0.6875rem] leading-relaxed text-slate-600">
-          Configuración validada para Tealium iQ v5.4. Los cambios realizados se guardarán
-          localmente hasta que se realice un 'Publish'.
-        </p>
-      </div>
-      <div className="flex gap-12">
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Version
-          </h4>
-          <p className="text-[0.6875rem] font-mono text-slate-600">1.0.4-stable</p>
-        </div>
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Last Edit
-          </h4>
-          <p className="text-[0.6875rem] text-slate-600">Oct 24, 2023</p>
-        </div>
-      </div>
-    </footer>
+
   </>
 );
 }

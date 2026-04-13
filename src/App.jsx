@@ -6,6 +6,9 @@ import Chat from './pages/Chat'
 import InterfaceIQ from './pages/InterfaceIQ'
 import GA4IQ from './pages/GA4IQ'
 import SnapchatIQ from './pages/SnapchatIQ'
+import AddToCart from './components/AddToCart'
+import ChatlingIQ from './pages/ChatlingIQ'
+import GenConfigIQ from './pages/GenConfigIQ'
 
 function App() {
 const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -36,6 +39,10 @@ return (
           <Route path="/iq/interfaz" element={<InterfaceIQ/>} />
           <Route path="/iq/ga4" element={<GA4IQ/>} />
           <Route path="/iq/snapchat" element={<SnapchatIQ/>} />
+          <Route path="/iq/chatling" element={<ChatlingIQ/>} />
+          <Route path="/iq/configuracion" element={<GenConfigIQ/>} />
+
+         
           
           
         </Routes>

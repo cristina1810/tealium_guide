@@ -7,6 +7,10 @@ Copy,
 CheckCircle2,
 Rocket,
 } from 'lucide-react';
+import DiscountBanner from '../components/DiscountBanner';
+import DataLayer from '../components/DataLayer';
+import SearchLowercase from '../components/SearchLowecase';
+import ProductBrandEvent from '../components/ProductBrandEvent';
 
 /* ── Reutilizable: número de paso ─────────────────────────── */
 function StepBadge({ number, active = false }) {
@@ -39,7 +43,7 @@ const DATA_MAP = [
 ];
 
 /* ════════════════════════════════════════════════════════════ */
-export default function GA4IQ() {
+export default function GenConfigIQ() {
 return (
   <>
     {/* ── Header ── */}
@@ -49,7 +53,7 @@ return (
           Implementation Guide
         </span>
         <h2 className="text-5xl font-extrabold tracking-tight text-slate-800 leading-tight">
-          Google Analytics 4
+          Configuración general
         </h2>
       </div>
       <div className="text-right pb-2">
@@ -65,33 +69,21 @@ return (
         <div className="flex items-start gap-12">
           <StepBadge number={1} active />
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Seleccionar Tag</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mb-6">Añadiendo variables a Data Layer</h3>
             <StepCard>
               <p className="text-slate-500 leading-relaxed mb-6">
-                Inicie el proceso localizando la etiqueta oficial de Google Analytics 4 en el
-                Marketplace de Tealium iQ. Esta etiqueta está optimizada para el protocolo de
-                medición de GA4.
+                Vamos a comenzar añadiendo todas las variables que encontramos presentes en la página de e-commerce. Si quieres hacerlo de por tu cuenta puedes acceder aquí para saber como.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-md bg-slate-100 flex items-center gap-4">
-                  <Search size={20} className="text-blue-700 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs font-bold uppercase text-slate-500">Búsqueda</p>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Google Analytics 4 (GA4)
-                    </p>
-                  </div>
+               <div className="flex items-start gap-4 p-4 rounded-lg bg-blue-50 border border-blue-100 mb-3">
+                  <Info size={18} className="text-blue-700 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-blue-800 italic leading-relaxed">
+                   Existe una opción "Add common variables" al deplegar la opción Add Variable que nos permite añadir variables comunes de e-commerce o de Tealium Built-in Data
+                  </p>
                 </div>
-                <div className="p-4 rounded-md bg-slate-100 flex items-center gap-4">
-                  <Tag size={20} className="text-blue-700 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs font-bold uppercase text-slate-500">Categoría</p>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Analytics &amp; Metrics
-                    </p>
-                  </div>
-                </div>
-              </div>
+                <p className="text-slate-500 leading-relaxed mb-6">
+                Si pulsas el botón "Copiar CSV", se copiará al portapapeles un CSV con el formato necesario para importar estas variables a Tealium iQ haciendo uso de la función de "Bulk Import" desplegando el botón "Add Variable".
+              </p>
+              <DataLayer / >
             </StepCard>
           </div>
         </div>
@@ -128,6 +120,7 @@ return (
                     >
                       <Copy size={17} />
                     </button>
+                    
                   </div>
                 </div>
 
@@ -140,44 +133,24 @@ return (
                   </p>
                 </div>
               </div>
+              <ProductBrandEvent / >
             </StepCard>
           </div>
         </div>
       </article>
 
-      {/* ── 03 Mapeo de Datos ── */}
+      
       <article>
         <div className="flex items-start gap-12">
           <StepBadge number={3} />
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Mapeo de Datos</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mb-6">Extensión: Search Lowercase</h3>
             <StepCard>
               <p className="text-slate-500 leading-relaxed mb-8">
-                Vincule sus variables del Data Layer a los parámetros específicos de Google
-                Analytics 4. Esto asegura que la semántica de los datos se mantenga íntegra.
+                Con una sola extensión se pide poner en lowercase todas las búsquedas realizadas al usar el input de búsqueda. Se crea una extensión tipo Lowercase seleccionando la variable que se va a modificar:
               </p>
-              <div className="overflow-hidden rounded-md border border-slate-200">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-100 text-slate-500 uppercase text-[10px] font-bold">
-                    <tr>
-                      <th className="px-6 py-4">Data Source Variable</th>
-                      <th className="px-6 py-4 text-center">
-                        <ArrowRight size={14} className="inline-block" />
-                      </th>
-                      <th className="px-6 py-4">GA4 Destination</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {DATA_MAP.map(({ source, dest }) => (
-                      <tr key={source} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 font-mono text-blue-700">{source}</td>
-                        <td className="px-6 py-4 text-center text-slate-400">→</td>
-                        <td className="px-6 py-4 font-medium text-slate-700">{dest}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+             
+              <SearchLowercase / >
             </StepCard>
           </div>
         </div>
@@ -188,71 +161,21 @@ return (
         <div className="flex items-start gap-12">
           <StepBadge number={4} />
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Añadir Load Rule</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mb-6">Extensión: Discount Banner</h3>
             <StepCard>
               <p className="text-slate-500 leading-relaxed mb-8">
                 Determine bajo qué condiciones se debe cargar esta etiqueta. Recomendamos
                 utilizar una regla de exclusión para entornos de desarrollo si se encuentra
                 en producción.
               </p>
-              <div className="flex flex-col gap-4">
-                {/* Active rule */}
-                <div className="p-6 rounded-lg bg-slate-100 border-l-4 border-blue-700">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-bold text-blue-700 uppercase">
-                      Active Rule
-                    </span>
-                    <CheckCircle2
-                      size={18}
-                      className="text-blue-700"
-                      fill="currentColor"
-                      strokeWidth={1}
-                    />
-                  </div>
-                  <p className="font-bold text-slate-800 mb-2">All Pages Except Dev</p>
-                  <code className="text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded">
-                    domain IS NOT EQUAL TO dev.example.com
-                  </code>
-                </div>
-
-                {/* CTA */}
-                <button className="mt-4 flex items-center justify-center gap-2 py-4 px-6 bg-gradient-to-br from-blue-700 to-blue-800 text-white rounded-lg font-bold shadow-lg hover:opacity-90 active:scale-[0.99] transition-all">
-                  Finalizar Configuración
-                  <Rocket size={17} />
-                </button>
-              </div>
+              <DiscountBanner/>
             </StepCard>
           </div>
         </div>
       </article>
     </section>
 
-    {/* ── Footer ── */}
-    <footer className="max-w-4xl mx-auto mt-32 pt-12 border-t border-slate-200 flex flex-col md:flex-row justify-between items-start gap-8 opacity-60">
-      <div className="max-w-xs">
-        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-          System Integrity
-        </h4>
-        <p className="text-[0.6875rem] leading-relaxed text-slate-600">
-          Configuración validada para Tealium iQ v5.4. Los cambios realizados se guardarán
-          localmente hasta que se realice un 'Publish'.
-        </p>
-      </div>
-      <div className="flex gap-12">
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Version
-          </h4>
-          <p className="text-[0.6875rem] font-mono text-slate-600">1.0.4-stable</p>
-        </div>
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Last Edit
-          </h4>
-          <p className="text-[0.6875rem] text-slate-600">Oct 24, 2023</p>
-        </div>
-      </div>
-    </footer>
+    
   </>
 );
 }
