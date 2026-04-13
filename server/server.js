@@ -24,11 +24,25 @@ const sessionThreads = new Map();
  * Obtener o crear un thread para la sesión
  */
 async function getOrCreateThread(sessionId) {
+  if (!sessionId) {
+    throw new Error('sessionId es requerido');
+  }
+
+  // Si ya existe un thread para esta sesión, devolverlo
   if (sessionThreads.has(sessionId)) {
-    return sessionThreads.get(sessionId);
+    const existingThreadId = sessionThreads.get(sessionId);
+    console.log('📎 Reutilizando thread existente:', existingThreadId);
+    return existingThreadId;
   }
   
+  // Crear nuevo thread
   const thread = await openai.beta.threads.create();
+  
+  if (!thread || !thread.id) {
+    throw new Error('No se pudo crear el thread en OpenAI');
+  }
+
+  console.log('✨ Nuevo thread creado:', thread.id);
   sessionThreads.set(sessionId, thread.id);
   return thread.id;
 }
@@ -37,32 +51,36 @@ async function getOrCreateThread(sessionId) {
  * Ejecutar un Assistant y esperar la respuesta
  */
 async function runAssistant(threadId, assistantId, message) {
+  // Validar parámetros
+  if (!threadId) {
+    throw new Error('threadId es requerido');
+  }
+  if (!assistantId) {
+    throw new Error('assistantId es requerido');
+  }
+  if (!message) {
+    throw new Error('message es requerido');
+  }
+
+  console.log('🔄 Ejecutando assistant:', { threadId, assistantId, messageLength: message.length });
+
   // Añadir mensaje del usuario al thread
   await openai.beta.threads.messages.create(threadId, {
     role: 'user',
     content: message
   });
 
-  // Ejecutar el assistant
-  const run = await openai.beta.threads.runs.create(threadId, {
+  // Ejecutar el assistant y esperar a que termine (usa createAndPoll que es más robusto)
+  console.log('🏃 Creando run y esperando respuesta...');
+  
+  const run = await openai.beta.threads.runs.createAndPoll(threadId, {
     assistant_id: assistantId
   });
 
-  // Esperar a que termine (polling)
-  let runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
-  
-  while (runStatus.status !== 'completed') {
-    if (runStatus.status === 'failed' || runStatus.status === 'cancelled' || runStatus.status === 'expired') {
-      throw new Error(`Run ${runStatus.status}: ${runStatus.last_error?.message || 'Unknown error'}`);
-    }
-    
-    // Si requiere acción, manejar (por ahora solo loggear)
-    if (runStatus.status === 'requires_action') {
-      throw new Error('El assistant requiere acciones que no están implementadas');
-    }
-    
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1s
-    runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
+  console.log('📊 Run completado con estado:', run.status);
+
+  if (run.status !== 'completed') {
+    throw new Error(`Run terminó con estado: ${run.status}. Error: ${run.last_error?.message || 'Unknown error'}`);
   }
 
   // Obtener la respuesta
