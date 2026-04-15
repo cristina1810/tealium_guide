@@ -1,258 +1,85 @@
-import {
-Search,
-Tag,
-Info,
-ArrowRight,
-Copy,
-CheckCircle2,
-Rocket,
-} from 'lucide-react';
+import { ChevronDown, Search } from "lucide-react";
+import DataLayer from "../components/DataLayer";
+import ProductBrandEvent from "../components/ProductBrandEvent";
+import MainButton from "../components/UI/MainButton";
+import StepBox from "../components/UI/StepBox";
+import StepCard from "../components/UI/StepCard";
+import VideoButton from "../components/UI/VideoButton";
+import SearchLowercase from "../components/SearchLowecase";
+import DiscountBanner from "../components/DiscountBanner";
+import Chatling from "../components/Chatling";
+import GA4ID from "../components/GA4ID";
+import GA4Tag from "../components/GA4Tag";
 
-/* ── Reutilizable: número de paso ─────────────────────────── */
-function StepBadge({ number, active = false }) {
-return (
-  <span
-    className={`inline-flex items-center justify-center w-12 h-12 rounded-lg font-bold text-xl flex-none
-      ${active
-        ? 'bg-blue-100 text-blue-700'
-        : 'bg-slate-200 text-slate-500'}`}
-  >
-    {String(number).padStart(2, '0')}
-  </span>
-);
-}
-
-/* ── Card contenedor por paso ─────────────────────────────── */
-function StepCard({ children }) {
-return (
-  <div className="bg-white p-8 rounded-lg shadow-[0px_12px_32px_rgba(40,52,57,0.06)] border border-slate-200/40">
-    {children}
-  </div>
-);
-}
-
-/* ── Mapeo de datos ───────────────────────────────────────── */
-const DATA_MAP = [
-{ source: 'customer_id', dest: 'user_id'        },
-{ source: 'page_name',   dest: 'page_location'  },
-{ source: 'cart_total',  dest: 'value'          },
-];
-
-/* ════════════════════════════════════════════════════════════ */
 export default function GA4IQ() {
-return (
-  <>
-    {/* ── Header ── */}
-    <header className="max-w-5xl mx-auto mb-16 flex justify-between items-end">
-      <div>
-        <span className="my-4 text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-slate-500 mb-2 block">
-          Implementation Guide
-        </span>
-        <h2 className="text-5xl font-extrabold tracking-tight text-slate-800 leading-tight">
-          Google Analytics 4
-        </h2>
-      </div>
-      <div className="text-right pb-2">
-        <span className="text-sm font-medium text-slate-500">Step 01 / 04</span>
-      </div>
-    </header>
-
-    {/* ── Steps ── */}
-    <section className="max-w-5xl mx-auto space-y-24">
-
-      {/* ── 01 Seleccionar Tag ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={1} active />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Seleccionar Tag</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-6">
-                Inicie el proceso localizando la etiqueta oficial de Google Analytics 4 en el
-                Marketplace de Tealium iQ. Esta etiqueta está optimizada para el protocolo de
-                medición de GA4.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-md bg-slate-100 flex items-center gap-4">
-                  <Search size={20} className="text-blue-700 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs font-bold uppercase text-slate-500">Búsqueda</p>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Google Analytics 4 (GA4)
-                    </p>
-                  </div>
-                </div>
-                <div className="p-4 rounded-md bg-slate-100 flex items-center gap-4">
-                  <Tag size={20} className="text-blue-700 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs font-bold uppercase text-slate-500">Categoría</p>
-                    <p className="text-sm font-semibold text-slate-800">
-                      Analytics &amp; Metrics
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </StepCard>
+  return (
+    <div>
+      {/* Header sticky */}
+      <div className="max-w-5xl mx-auto mb-8 flex ">
+        <div>
+          <div className="flex items-start mt-5 justify-end gap-4">
+            <span className="text-3xl uppercase tracking-wide">
+              Google analytics 4
+            </span>
+            <VideoButton className="ms-auto">Ver vídeo</VideoButton>
+          </div>
+          {/* explicación
+        - Hacer desplegable*/}
+          <div className="text-start bg-white/80  w-full p-4 rounded-lg bg-blur mt-4">
+            <div className="flex items-center cursor-pointer">
+              <p>Mostrar/ ocultar enunciado</p>
+              <ChevronDown size={16} className="ms-1 inline-block" />
+            </div>
+            <div>Parte que se puede desplegar con más información</div>
           </div>
         </div>
-      </article>
-
-      {/* ── 02 Configurar Propiedades ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={2} />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Configurar Propiedades</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Defina los parámetros base de su propiedad. El Measurement ID es el
-                identificador único necesario para dirigir los datos hacia su flujo de GA4.
-              </p>
-              <div className="space-y-6">
-                {/* Measurement ID */}
+      </div>
+      {/* ----------------------------------------------- */}
+      {/* Steps */}
+      <div className="max-w-5xl mx-auto space-y-24">
+        {/* Extension 1 */}
+        <div className="flex-1">
+          <div>
+            <div className="flex items-start gap-6 mb-4">
+              <StepBox number={1} />
+              <div className="flex-1">
                 <div>
-                  <label className="block text-[0.6875rem] font-bold uppercase tracking-wider text-slate-500 mb-2">
-                    Measurement ID
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      readOnly
-                      value="G-XXXXXXXXXX"
-                      className="w-full bg-slate-100 border-0 rounded-md p-4 font-mono text-sm text-slate-500 focus:ring-0 outline-none"
-                    />
-                    <button
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-700 transition-colors"
-                      onClick={() => navigator.clipboard.writeText('G-XXXXXXXXXX')}
-                      title="Copiar"
-                    >
-                      <Copy size={17} />
-                    </button>
+                  <div className="flex items-center mb-3">
+                    <h3 className=" text-2xl">Extensión: GA4 ID</h3>
+                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
                   </div>
+                  {/* Texto que se oculta */}
+                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
-
-                {/* Info callout */}
-                <div className="flex items-start gap-4 p-4 rounded-lg bg-blue-50 border border-blue-100">
-                  <Info size={18} className="text-blue-700 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-blue-800 italic leading-relaxed">
-                    El Measurement ID se encuentra en el panel de administración de GA4 bajo
-                    'Data Streams'.
-                  </p>
-                </div>
+                <StepCard>
+                  <GA4ID />
+                </StepCard>
               </div>
-            </StepCard>
+            </div>
           </div>
         </div>
-      </article>
-
-      {/* ── 03 Mapeo de Datos ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={3} />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Mapeo de Datos</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Vincule sus variables del Data Layer a los parámetros específicos de Google
-                Analytics 4. Esto asegura que la semántica de los datos se mantenga íntegra.
-              </p>
-              <div className="overflow-hidden rounded-md border border-slate-200">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-100 text-slate-500 uppercase text-[10px] font-bold">
-                    <tr>
-                      <th className="px-6 py-4">Data Source Variable</th>
-                      <th className="px-6 py-4 text-center">
-                        <ArrowRight size={14} className="inline-block" />
-                      </th>
-                      <th className="px-6 py-4">GA4 Destination</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {DATA_MAP.map(({ source, dest }) => (
-                      <tr key={source} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-6 py-4 font-mono text-blue-700">{source}</td>
-                        <td className="px-6 py-4 text-center text-slate-400">→</td>
-                        <td className="px-6 py-4 font-medium text-slate-700">{dest}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </StepCard>
-          </div>
-        </div>
-      </article>
-
-      {/* ── 04 Añadir Load Rule ── */}
-      <article>
-        <div className="flex items-start gap-12">
-          <StepBadge number={4} />
-          <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-800 mb-6">Añadir Load Rule</h3>
-            <StepCard>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Determine bajo qué condiciones se debe cargar esta etiqueta. Recomendamos
-                utilizar una regla de exclusión para entornos de desarrollo si se encuentra
-                en producción.
-              </p>
-              <div className="flex flex-col gap-4">
-                {/* Active rule */}
-                <div className="p-6 rounded-lg bg-slate-100 border-l-4 border-blue-700">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-bold text-blue-700 uppercase">
-                      Active Rule
-                    </span>
-                    <CheckCircle2
-                      size={18}
-                      className="text-blue-700"
-                      fill="currentColor"
-                      strokeWidth={1}
-                    />
+        {/* Extension 2 */}
+        <div className="flex-1">
+          <div>
+            <div className="flex items-start gap-6 mb-10">
+              <StepBox number={2} />
+              <div className="flex-1">
+                <div>
+                  <div className="flex items-center mb-3">
+                    <h3 className=" text-2xl">Tag: Google Analytics 4</h3>
+                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
                   </div>
-                  <p className="font-bold text-slate-800 mb-2">All Pages Except Dev</p>
-                  <code className="text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded">
-                    domain IS NOT EQUAL TO dev.example.com
-                  </code>
+                  {/* Texto que se oculta */}
+                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
-
-                {/* CTA */}
-                <button className="mt-4 flex items-center justify-center gap-2 py-4 px-6 bg-gradient-to-br from-blue-700 to-blue-800 text-white rounded-lg font-bold shadow-lg hover:opacity-90 active:scale-[0.99] transition-all">
-                  Finalizar Configuración
-                  <Rocket size={17} />
-                </button>
+                <StepCard>
+                  <GA4Tag />
+                </StepCard>
               </div>
-            </StepCard>
+            </div>
           </div>
-        </div>
-      </article>
-    </section>
-
-    {/* ── Footer ── */}
-    <footer className="max-w-4xl mx-auto mt-32 pt-12 border-t border-slate-200 flex flex-col md:flex-row justify-between items-start gap-8 opacity-60">
-      <div className="max-w-xs">
-        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-          System Integrity
-        </h4>
-        <p className="text-[0.6875rem] leading-relaxed text-slate-600">
-          Configuración validada para Tealium iQ v5.4. Los cambios realizados se guardarán
-          localmente hasta que se realice un 'Publish'.
-        </p>
-      </div>
-      <div className="flex gap-12">
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Version
-          </h4>
-          <p className="text-[0.6875rem] font-mono text-slate-600">1.0.4-stable</p>
-        </div>
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
-            Last Edit
-          </h4>
-          <p className="text-[0.6875rem] text-slate-600">Oct 24, 2023</p>
         </div>
       </div>
-    </footer>
-  </>
-);
+    </div>
+  );
 }
