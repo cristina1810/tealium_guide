@@ -156,9 +156,9 @@ return (
     {/* Panel lateral */}
     <aside
       className={`h-screen w-72 fixed left-0 top-0 overflow-y-auto
-        bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl
+        bg-white/50 dark:bg-slate-900/80 backdrop-blur-xl
         flex flex-col py-10 px-8 gap-y-1 z-50
-        transition-transform duration-300 ease-in-out
+        transition-transform duration-300 ease-in-out  shadow-lg
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       {/* Logo + botón cerrar */}

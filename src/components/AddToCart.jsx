@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SecondaryButton from "./UI/SecondaryButton";
+import { Plus } from "lucide-react";
 
 const initialVariables = [
 { id: 1, set: "product_list_price", to: "Data Layer Value", value: "add_to_cart" },
@@ -182,13 +184,10 @@ return (
         <p className="text-xs text-gray-400 mb-5">Select to trigger this event always or once.</p>
 
         {/* New Variable Button */}
-        <button
-          onClick={addVariable}
-          className="flex items-center gap-1 text-sm text-blue-600 border border-blue-300 rounded px-3 py-1.5 hover:bg-blue-50 transition-colors"
-        >
-          <span className="text-lg leading-none">+</span>
+        <SecondaryButton className="ml-2">
+          <Plus size={12} className="mr-2" />
           New Variable
-        </button>
+        </SecondaryButton>
       </div>
 
       {/* Event Trigger Variables */}

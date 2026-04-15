@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Code, Edit, Info, Plus } from "lucide-react";
+import MainButton from "./UI/MainButton";
 
 /* ══════════════════════════════════
  SHARED COMPONENTS
@@ -95,7 +96,11 @@ return (
       </Field>
 
       <div className="mb-5">
-        <BlueButton icon="code">Extract From Code</BlueButton>
+       
+        <MainButton>
+          <Code size={12} className="mr-2" />
+          Extract from code
+        </MainButton>
       </div>
 
       <Field label="Pixel ID">
@@ -178,8 +183,10 @@ return (
       </Field>
 
       <div className="mt-5">
-        <BlueButton icon="edit">Edit Template</BlueButton>
-      </div>
+        <MainButton>
+            <Edit size={12} className="mr-2" />
+            Edit Template</MainButton>
+            </div>
     </div>
 
     {/* ── Right Sidebar ── */}
@@ -356,7 +363,6 @@ return (
       <Info size={18} className="text-red-700 mt-0.5 flex-shrink-0" />
       <p className="text-sm text-red-800 italic leading-relaxed">
        En azul: al seleccionar la variable que aparece en azul para mapear, vamos al apartado Event-specific parameters e introducimos el nombre de la variable tal y como aparece en la documentación.
-
 Mapping de eventos — Add mapping - events
 
 
@@ -365,9 +371,11 @@ Mapping de eventos — Add mapping - events
     {/* Header */}
     <div className="flex items-center justify-between mb-4">
       <h2 className="text-sm font-semibold text-gray-700">Mapped Variables</h2>
-      <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded transition-colors">
-        + Add Mapping
-      </button>
+      <MainButton>
+        <Plus
+            size={12} className="mr-2" />
+        Add Mapping
+      </MainButton>
     </div>
 
     {/* Filter */}
@@ -462,18 +470,6 @@ function Helper({ children }) {
 return <p className="text-xs text-gray-400 mt-1">{children}</p>;
 }
 
-function BlueButton({ icon, children }) {
-const icons = {
-  code: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>,
-  edit: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>,
-};
-return (
-  <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1.5 rounded transition-colors">
-    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">{icons[icon]}</svg>
-    {children}
-  </button>
-);
-}
 
 /* ══════════════════════════════════
  MAIN APP
@@ -492,7 +488,7 @@ const visited = { configuration: true, rules: activeTab !== "configuration", map
 const ActiveComponent = TABS.find((t) => t.id === activeTab)?.component ?? ConfigurationTab;
 
 return (
-  <div className="flex items-start justify-center">
+  <div className="min-h-screen flex items-start justify-center">
     <div className="w-full max-w-6xl bg-white shadow-md rounded-xl overflow-hidden">
 
       {/* ── Tab Nav ── */}
@@ -504,10 +500,10 @@ return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1.5 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-1.5 px-5 py-3 text-sm font-medium border  transition-colors whitespace-nowrap ${
                 isActive
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  ? "border-blue-500 text-blue-600 rounded-xl"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 rounded-xl"
               }`}
             >
               {isDone && (

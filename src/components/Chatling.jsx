@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Edit, Info,Code } from "lucide-react";
+import MainButton from "./UI/MainButton";
 
 /* ══════════════════════════════════════════════════════
  RULES DATA
@@ -454,7 +455,10 @@ return (
     </Field>
 
     <div className="mb-5">
-      <BlueButton icon="code">Extract From Code</BlueButton>
+      <MainButton>
+          <Code size={12} className="mr-2" />
+          Extract from code
+        </MainButton>
     </div>
 
     <Field label="Pixel ID">
@@ -534,7 +538,9 @@ return (
     </Field>
 
     <div className="mt-5">
-      <BlueButton icon="edit">Edit Template</BlueButton>
+     <MainButton>
+                 <Edit size={12} className="mr-2" />
+                 Edit Template</MainButton>
     </div>
     
   </div>
@@ -654,7 +660,7 @@ const [activeTab, setActiveTab] = useState("configuration");
 const ActiveComponent = TABS.find((t) => t.id === activeTab)?.component ?? ConfigurationTab;
 
 return (
-  <div className="flex items-start justify-center min-h-screen bg-gray-100 p-6">
+  <div className="min-h-screen flex items-start justify-center">
     <div className="w-full max-w-6xl bg-white shadow-md rounded-xl overflow-hidden">
 
       {/* ── Tab Nav ── */}
@@ -666,10 +672,10 @@ return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1.5 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex items-center gap-1.5 px-5 py-3 text-sm font-medium border  transition-colors whitespace-nowrap ${
                 isActive
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  ? "border-blue-500 text-blue-600 rounded-xl"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 rounded-xl"
               }`}
             >
               {isDone && (
