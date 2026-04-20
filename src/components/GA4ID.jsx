@@ -1,5 +1,43 @@
 import { useState } from "react";
-
+import Delete from "./UI/Delete";
+import Duplicate from "./UI/Duplicate";
+import ViewHisChange from "./UI/ViewHisChange";
+import Toggle from "./UI/Toggle";
+import CopyButton from "./UI/CopyButton";
+function Chevron() {
+  return (
+    <svg
+      className="w-3 h-3 text-gray-400 shrink-0"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  );
+}
+function Select({ value, onChange, options, className = "w-40" }) {
+  return (
+    <div className={`relative ${className}`}>
+      <select
+        value={value}
+        className="w-full border border-gray-300 rounded px-2 py-1 text-xs appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-blue-300 pr-6"
+      >
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-1.5 flex items-center">
+        <Chevron />
+      </div>
+    </div>
+  );
+}
 const lineNumbers = [1, 2, 3, 4, 5];
 
 const codeLines = [
@@ -42,11 +80,11 @@ const codeLines = [
 
 function CodeToken({ type, text }) {
   const colors = {
-    keyword: "text-blue-400 font-semibold",
-    string: "text-green-400",
-    operator: "text-gray-300",
-    variable: "text-yellow-300",
-    plain: "text-gray-200",
+    keyword: "text-blue-500 font-semibold",
+    string: "text-emerald-600",
+    operator: "text-gray-600",
+    variable: "text-yellow-500",
+    plain: "text-gray-400",
   };
   return <span className={colors[type] || "text-gray-200"}>{text}</span>;
 }
@@ -59,93 +97,31 @@ export default function GA4ID() {
   return (
     <div className="flex items-start justify-center ">
       <div className="w-full  shadow-sm rounded">
-        {/* Top Bar */}
-        <div className="flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-300">
-          <div className="flex items-center gap-3">
-            {/* Checkbox */}
-            <input
-              type="checkbox"
-              className="w-4 h-4 border-gray-400 rounded"
-              defaultChecked
-            />
-            {/* Toggle */}
-            <button
-              onClick={() => setEnabled(!enabled)}
-              className={`flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold border transition-colors ${
-                enabled
-                  ? "bg-green-500 border-green-600 text-white"
-                  : "bg-gray-300 border-gray-400 text-gray-600"
-              }`}
-            >
-              <span className={`w-3 h-3 rounded-full bg-white inline-block`} />
-              {enabled ? "ON" : "OFF"}
-            </button>
-            <span className="text-sm font-medium text-gray-700">GA4 id</span>
+        {/* ══ TABLE ROW ══ */}
+        <div className="flex items-center border-b border-gray-300 px-4 py-2 bg-gray-50/50">
+          {/* Toggle */}
+          <div className="me-4">
+            <Toggle />
+          </div>
+          {/* Título */}
+          <div className="flex-1 text-sm font-medium text-gray-800">
+            GA4 ID{" "}
           </div>
 
-          {/* Tabs */}
-          <div className="flex items-center gap-6 text-sm">
-            <span className="text-gray-500 hover:text-gray-700 cursor-pointer">
-              Javascript Code
-            </span>
-            <span className="text-gray-500 hover:text-gray-700 cursor-pointer border-b-2 border-blue-500 pb-0.5 text-gray-800">
-              Before Load Rules
-            </span>
-          </div>
+          {/* Type */}
+          <div className="w-40 text-sm text-gray-600">Javascript Code</div>
+
+          {/* Scope */}
+          <div className="w-45 text-sm text-gray-600">Before Load Rules</div>
         </div>
 
         <div className="flex">
           {/* Left Sidebar */}
           <div className="w-44 border-r border-gray-300 p-3 flex flex-col gap-1 bg-gray-50">
             {/* Actions */}
-            <button className="flex items-center gap-2 text-sm text-red-500 hover:bg-red-50 px-2 py-1.5 rounded transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-              Delete
-            </button>
-            <button className="flex items-center gap-2 text-sm text-gray-600 hover:bg-gray-100 px-2 py-1.5 rounded transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
-              Duplicate
-            </button>
-            <button className="flex items-center gap-2 text-sm text-gray-600 hover:bg-gray-100 px-2 py-1.5 rounded transition-colors">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              View Change History
-            </button>
+            <Delete />
+            <Duplicate />
+            <ViewHisChange />
 
             <hr className="my-2 border-gray-300" />
 
@@ -154,9 +130,6 @@ export default function GA4ID() {
               <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                 Labels
               </span>
-              <button className="text-xs text-blue-600 hover:text-blue-800 font-medium">
-                Apply Labels
-              </button>
             </div>
             <p className="text-xs text-gray-400 italic">
               There are no labels assigned
@@ -188,122 +161,92 @@ export default function GA4ID() {
           {/* Main Content */}
           <div className="flex-1 p-5 space-y-5">
             {/* Title */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Title
-              </label>
+            <div className="mb-4">
+              <label className="block text-gray-500 mb-1">Title</label>
               <input
-                type="text"
-                defaultValue="GA4 id"
-                className="w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400"
+                value={"GA4 id"}
+                className="border border-gray-300 rounded px-2 py-1.5 text-xs w-64 focus:outline-none focus:ring-1 focus:ring-blue-300"
               />
             </div>
 
             {/* Scope */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Scope
-              </label>
+            <div className="mb-4">
+              <label className="block text-gray-500 mb-1">Scope</label>
               <div className="flex items-center gap-3">
-                <select className="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white">
-                  <option>Before Load Rules</option>
-                  <option>After Load Rules</option>
-                  <option>DOM Ready</option>
-                  <option>All Tags</option>
-                </select>
-                <button className="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                <Select
+                  value={"Before Load Rules"}
+                  options={["Before Load Rules"]}
+                  className="w-52"
+                />
+                <button className="text-blue-500 hover:underline whitespace-nowrap">
                   Edit Load Order...
                 </button>
-              </div>
-
-              {/* Info Banner */}
-              <div className="flex items-center gap-2 mt-2 bg-blue-50 border border-blue-200 rounded px-3 py-2">
-                <svg
-                  className="w-4 h-4 text-blue-500 flex-shrink-0"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-xs text-blue-700">
-                  This feature requires utag v4.38 or higher.
-                </span>
               </div>
             </div>
 
             {/* Occurrence */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Occurrence
-              </label>
-              <div className="space-y-1">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="occurrence"
-                    value="always"
-                    checked={occurrence === "always"}
-                    onChange={() => setOccurrence("always")}
-                    className="accent-red-500"
-                  />
-                  <span className="text-sm text-gray-700">Run Always</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="occurrence"
-                    value="once"
-                    checked={occurrence === "once"}
-                    onChange={() => setOccurrence("once")}
-                    className="accent-red-500"
-                  />
-                  <span className="text-sm text-gray-700">Run Once</span>
-                </label>
+            <div className="mb-5">
+              <label className="block text-gray-500 mb-1.5">Occurrence</label>
+              <div className="flex flex-col gap-1.5">
+                {["Run Always", "Run Once"].map((opt) => (
+                  <label
+                    key={opt}
+                    className="flex items-center gap-2 cursor-pointer text-gray-500"
+                  >
+                    <input
+                      type="radio"
+                      name="occ"
+                      value={opt}
+                      checked={occurrence === opt}
+                      className="accent-blue-500"
+                    />
+                    {opt}
+                  </label>
+                ))}
               </div>
             </div>
 
             {/* Configuration */}
+            <p className="text-gray-500 mb-2">Configuration</p>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Configuration
-              </label>
-
               {/* Scope Vars */}
-              <div className="mb-3">
-                <label className="block text-xs text-gray-600 mb-1">
+              <div className="mb-3 flex items-center gap-2">
+                <label className=" text-xs text-gray-600 mb-1">
                   Scope Vars:
                 </label>
                 <input
                   type="text"
                   value={scopeVars}
-                  onChange={(e) => setScopeVars(e.target.value)}
                   placeholder="Optional: Ex: objects,arrays,b,string,c,boolean,d"
-                  className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-gray-400"
+                  className="w-100 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-gray-400"
                 />
               </div>
 
               {/* Code Editor */}
               <div className="border border-gray-300 rounded overflow-hidden">
                 {/* Editor Header */}
-                <div className="bg-gray-700 px-3 py-1 flex items-center gap-2">
-                  <span className="text-xs text-gray-300">JavaScript</span>
+                <div className="flex items-center justify-between bg-gray-100 border-b border-gray-200 px-2 py-1">
+                  <span className="text-xs text-gray-500">JavaScript</span>
+                  <CopyButton
+                    text={`if (b["ut.env"] === "dev" || b["ut.env"] === "qa") {
+b.ga4_measurement_id = "G-YK3VE8627F"; 
+} else {
+b.ga4_measurement_id = "G-DEB0652XND"; 
+}`}
+                  />
                 </div>
 
                 {/* Code Area */}
-                <div className="bg-gray-900 font-mono text-sm overflow-auto">
+                <div className="bg-white font-mono text-sm overflow-auto">
                   <table className="w-full border-collapse">
                     <tbody>
                       {codeLines.map((line, i) => (
                         <tr
                           key={i}
-                          className="hover:bg-gray-800 transition-colors"
+                          className="hover:bg-gray-50 transition-colors"
                         >
                           {/* Line Number */}
-                          <td className="select-none text-right text-gray-500 text-xs px-3 py-0.5 w-8 border-r border-gray-700 align-top">
+                          <td className="select-none text-right text-gray-400 text-xs px-2 py-0.5 w-8 bg-gray-100 border-r border-gray-200 align-top">
                             {i + 1}
                           </td>
                           {/* Code */}
@@ -323,29 +266,15 @@ export default function GA4ID() {
                           </td>
                         </tr>
                       ))}
-                      {/* Empty lines to fill space */}
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <tr key={`empty-${i}`} className="hover:bg-gray-800">
-                          <td className="select-none text-right text-gray-600 text-xs px-3 py-0.5 w-8 border-r border-gray-700">
-                            {codeLines.length + i + 1}
-                          </td>
-                          <td className="px-4 py-0.5">&nbsp;</td>
-                        </tr>
-                      ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
-            </div>
 
-            {/* Condition */}
-            <div className="flex items-center gap-3 pt-2 border-t border-gray-200">
-              <span className="text-sm font-medium text-gray-700">
-                Condition
-              </span>
-              <button className="text-sm text-blue-600 hover:text-blue-800 border border-blue-300 hover:border-blue-500 px-3 py-1 rounded transition-colors">
-                Add Condition
-              </button>
+                {/* Footer bar */}
+                <div className="h-2.5 bg-gray-100 border-t border-gray-200 flex items-center">
+                  <div className="ml-4 w-16 h-1.5 bg-gray-400 rounded-full opacity-40" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

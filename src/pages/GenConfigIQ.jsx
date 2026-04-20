@@ -1,4 +1,6 @@
-import { ChevronDown, Search } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Info, Search } from "lucide-react";
+
 import DataLayer from "../components/DataLayer";
 import ProductBrandEvent from "../components/ProductBrandEvent";
 import MainButton from "../components/UI/MainButton";
@@ -7,46 +9,150 @@ import StepCard from "../components/UI/StepCard";
 import VideoButton from "../components/UI/VideoButton";
 import SearchLowercase from "../components/SearchLowecase";
 import DiscountBanner from "../components/DiscountBanner";
+import InfoBox from "../components/UI/InfoBox";
 
 export default function GenConfigIQ() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
+  const [isOpen4, setIsOpen4] = useState(false);
+
   return (
     <div>
       {/* Header sticky */}
-      <div className="max-w-5xl mx-auto mb-8 flex ">
-        <div>
-          <div className="flex items-center mt-5 justify-end gap-4">
-            <span className="text-3xl uppercase tracking-wide">
-              Configuración general
-            </span>
-            <VideoButton className="ms-auto">Ver vídeo</VideoButton>
+      <div className="max-w-6xl mx-auto mb-8">
+        {/* Título y botón en extremos opuestos */}
+        <div className="flex items-center justify-between mt-8">
+          <span className="text-4xl uppercase tracking-wide">
+            Configuración general
+          </span>
+          <VideoButton>Ver vídeo</VideoButton>
+        </div>
+
+        {/* Caja desplegable */}
+        <div className="text-start bg-white/80 w-full p-4 rounded-lg bg-blur mt-4">
+          <div
+            className="flex items-center cursor-pointer select-none"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <p>Mostrar detalles del enunciado</p>
+            <ChevronDown
+              size={16}
+              className={`ms-1 inline-block transition-transform duration-300 ${
+                isOpen ? "rotate-180" : "rotate-0"
+              }`}
+            />
           </div>
-          {/* explicación
-        - Hacer desplegable*/}
-          <div className="text-start bg-white/80  w-full p-4 rounded-lg bg-blur mt-4">
-            <div className="flex items-center cursor-pointer">
-              <p>Mostrar/ ocultar enunciado</p>
-              <ChevronDown size={16} className="ms-1 inline-block" />
+
+          {/* Contenido desplegable */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ${
+              isOpen ? "max-h-96 mt-3 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+              <p>
+                Se pide revisar el{" "}
+                <span className="font-medium text-gray-900">data layer</span>{" "}
+                para las páginas del flujo. Se añadirán aquellas variables que
+                se usen en{" "}
+                <span className="font-medium text-gray-900">
+                  eventos, tags, load rules
+                </span>{" "}
+                y{" "}
+                <span className="font-medium text-gray-900">data mappings</span>
+                .
+              </p>
+
+              <div>
+                <p className="font-medium text-gray-900 mb-2">
+                  Se pide revisar:
+                </p>
+                <ul className="grid grid-cols-2 gap-1.5">
+                  {[
+                    "Home",
+                    "Categoría",
+                    "Producto",
+                    "Carrito",
+                    "Checkout",
+                    "Página de confirmación del pedido",
+                  ].map((page) => (
+                    <li
+                      key={page}
+                      className="flex items-center gap-2 bg-white rounded-md px-3 py-1.5 "
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                      {page}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <p className="pt-1 border-t border-gray-100">
+                Una vez revisado el data layer y añadidas las variables, se
+                crearán{" "}
+                <span className="font-medium text-gray-900">extensiones</span>.
+                Más abajo encontramos la información con los detalles.
+              </p>
             </div>
-            <div>Parte que se puede desplegar con más información</div>
           </div>
         </div>
       </div>
+
       {/* ----------------------------------------------- */}
       {/* Steps */}
-      <div className="max-w-5xl mx-auto space-y-24">
+      <div className="max-w-6xl mx-auto space-y-24">
         {/* Extension 1 */}
         <div className="flex-1">
           <div>
             <div className="flex items-start gap-6 mb-4">
               <StepBox number={1} />
               <div className="flex-1">
-                <div>
-                  <div className="flex items-center mb-3">
-                    <h3 className=" text-2xl">Data Layer</h3>
-                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
+                <div className="rounded-xl overflow-hidden">
+                  {/* Header */}
+                  <button
+                    onClick={() => setIsOpen1(!isOpen1)}
+                    className="w-full flex items-center justify-between px-5 py-4 "
+                  >
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-semibold text-slate-800">
+                        Data Layer
+                      </h3>
+                    </div>
+                    <ChevronDown
+                      size={20}
+                      className={`text-slate-500 transition-transform duration-300 ${
+                        isOpen1 ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+
+                  {/* Contenido colapsable */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                      isOpen1 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 py-4 border-t border-gray-100">
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        Una vez revisadas las páginas que se nos piden,
+                        detectamos la siguiente lista de variables:
+                      </p>
+
+                      {/* InfoBox */}
+                      <InfoBox color="green">
+                        <p className="text-green-800 text-sm leading-relaxed">
+                          Se recomienda copiar CSV y, dentro de la herramienta -
+                          Data Layer desplegamos la opción{" "}
+                          <span className="font-semibold">
+                            "+ Add Variable"
+                          </span>{" "}
+                          - Bulk Import from CSV y pegamos el CSV generado.
+                        </p>
+                      </InfoBox>
+                    </div>
                   </div>
-                  {/* Texto que se oculta */}
-                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
                 <StepCard>
                   <DataLayer />
@@ -61,15 +167,75 @@ export default function GenConfigIQ() {
             <div className="flex items-start gap-6 mb-4">
               <StepBox number={2} />
               <div className="flex-1">
-                <div>
-                  <div className="flex items-center mb-3">
-                    <h3 className=" text-2xl">
-                      Evento: product brand and event
-                    </h3>
-                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
+                <div className="rounded-xl overflow-hidden">
+                  {/* Header */}
+                  <button
+                    onClick={() => setIsOpen2(!isOpen2)}
+                    className="w-full flex items-center justify-between px-5 py-4 "
+                  >
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-2xl font-semibold text-slate-800">
+                        Evento: product brand and event
+                      </h3>
+                    </div>
+                    <ChevronDown
+                      size={20}
+                      className={`text-slate-500 transition-transform duration-300 ${
+                        isOpen1 ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+
+                  {/* Contenido colapsable */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                      isOpen2 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 py-4 border-t border-gray-100 space-y-4">
+                      {/* Descripción principal */}
+                      <p className="text-slate-600 text-sm leading-relaxed">
+                        Con una única extensión se actualizan automáticamente
+                        los siguientes valores cada vez que el usuario accede a
+                        una página de detalle de producto:
+                      </p>
+
+                      {/* Tabla de mapeos */}
+                      <div className="flex flex-col gap-2">
+                        {[
+                          { key: "product_brand", value: "teal_ecomm" },
+                          { key: "tealium_event", value: "product_view" },
+                        ].map(({ key, value }) => (
+                          <div key={key} className="flex items-center gap-2">
+                            <span className="px-2.5 py-1 rounded-md bg-blue-50 border border-blue-100 font-mono text-xs text-blue-600 font-medium">
+                              {key}
+                            </span>
+                            <span className="text-slate-300 text-sm">→</span>
+                            <span className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-100 font-mono text-xs text-emerald-600 font-medium">
+                              {value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Nota técnica */}
+                      <div className="flex gap-3 bg-white border border-slate-200 rounded-lg p-4">
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Se utiliza la opción{" "}
+                          <span className="font-semibold text-slate-800">
+                            Set Data Values
+                          </span>{" "}
+                          al configurar la extensión, con la condición de que
+                          los valores se actualicen únicamente cuando el usuario
+                          se encuentre en una{" "}
+                          <span className="font-semibold text-slate-800">
+                            página de detalle de producto
+                          </span>
+                          .
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  {/* Texto que se oculta */}
-                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
                 <StepCard>
                   <ProductBrandEvent />
@@ -84,13 +250,49 @@ export default function GenConfigIQ() {
             <div className="flex items-start gap-6 mb-4">
               <StepBox number={3} />
               <div className="flex-1">
-                <div>
-                  <div className="flex items-center mb-3">
-                    <h3 className=" text-2xl">Evento: search lowercase</h3>
-                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
+                <div className="rounded-xl overflow-hidden">
+                  {/* Header */}
+                  <button
+                    onClick={() => setIsOpen3(!isOpen3)}
+                    className="w-full flex items-center justify-between px-5 py-4 "
+                  >
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-semibold text-slate-800">
+                        Evento: search lowercase
+                      </h3>
+                    </div>
+                    <ChevronDown
+                      size={20}
+                      className={`text-slate-500 transition-transform duration-300 ${
+                        isOpen3 ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+
+                  {/* Contenido colapsable */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                      isOpen3 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 py-4 border-t border-gray-100">
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        Con una única extensión se pide modificar a lower case
+                        todas las búsquedas realizadas en la caja de busqueda de
+                        la parte de arriba de la página.
+                      </p>
+                      <div className="flex gap-3 bg-white border border-slate-200 rounded-lg p-4">
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Se utiliza la opción{" "}
+                          <span className="font-semibold text-slate-800">
+                            Lower-Casing
+                          </span>{" "}
+                          al configurar la extensión, para que todas las
+                          búsquedas se transformen a lower case.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  {/* Texto que se oculta */}
-                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
                 <StepCard>
                   <SearchLowercase />
@@ -105,13 +307,52 @@ export default function GenConfigIQ() {
             <div className="flex items-start gap-6 mb-10">
               <StepBox number={4} />
               <div className="flex-1">
-                <div>
-                  <div className="flex items-center mb-3">
-                    <h3 className=" text-2xl">Evento: discount banner</h3>
-                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
+                <div className="rounded-xl overflow-hidden">
+                  {/* Header */}
+                  <button
+                    onClick={() => setIsOpen4(!isOpen4)}
+                    className="w-full flex items-center justify-between px-5 py-4 "
+                  >
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-semibold text-slate-800">
+                        Evento: discount banner
+                      </h3>
+                    </div>
+                    <ChevronDown
+                      size={20}
+                      className={`text-slate-500 transition-transform duration-300 ${
+                        isOpen3 ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+
+                  {/* Contenido colapsable */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                      isOpen4 ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 py-4 border-t border-gray-100">
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        Mostrar un banner de descuento en la pagina de detalle
+                        de un producto cuando el precio de dicho producto sea
+                        superior a 130.00. Usar el código mostrado en a
+                        continuación.
+                      </p>
+                      <div className="flex gap-3 bg-white border border-slate-200 rounded-lg p-4">
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Se utiliza la opción{" "}
+                          <span className="font-semibold text-slate-800">
+                            Content Modification
+                          </span>{" "}
+                          al configurar la extensión, para inyectar el código
+                          que nos mostrará el banner. Además lo condicionamos a
+                          que aparezca únicamente en las páginas de detalle de
+                          producto y cuando el precio sea superior a 130.00.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  {/* Texto que se oculta */}
-                  <div className="mb-3">Explicación ejercicio</div>
                 </div>
                 <StepCard>
                   <DiscountBanner />

@@ -51,9 +51,69 @@ function Select({ value, onChange, options, className = "w-40" }) {
  CODE EDITOR
 ══════════════════════════════════ */
 function CodeEditor({ value, onChange }) {
+  const [copied, setCopied] = useState(false);
   const lineCount = value.split("\n").length;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   return (
     <div className="border border-gray-300 rounded overflow-hidden">
+      {/* ── Header bar con botón copiar ── */}
+      <div className="flex items-center justify-end bg-gray-100 border-b border-gray-200 px-2 py-1">
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 text-[11px] text-gray-500 hover:text-gray-700 transition-colors"
+          title="Copy code"
+        >
+          {copied ? (
+            <>
+              {/* Check icon */}
+              <svg
+                className="w-3.5 h-3.5 text-green-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <span className="text-green-500">Copied!</span>
+            </>
+          ) : (
+            <>
+              {/* Copy icon */}
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                />
+              </svg>
+              <span>Copiar</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* ── Editor ── */}
       <div className="flex font-mono text-xs bg-white">
         <div className="bg-gray-100 border-r border-gray-200 px-2 pt-2 text-gray-400 select-none text-right min-w-[2.2rem] leading-5">
           {Array.from({ length: Math.max(lineCount, 2) }, (_, i) => (
@@ -77,7 +137,7 @@ function CodeEditor({ value, onChange }) {
 /* ══════════════════════════════════
  MAIN COMPONENT
 ══════════════════════════════════ */
-const INIT_CODE = `<div style="width:100%; background:#794896; color:white; padding:10px; margin-top:10px; text-align:center`;
+const INIT_CODE = `<div style="width:100%; background:#794896; color:white; padding:10px; margin-top:10px; text-align:center;">Get 10% off for purchases above <strong>130.00</strong>.</div>`;
 const INIT_CONDITIONS = [
   { id: 1, variable: "page_type (is)", operator: "equals", value: "product" },
   {
