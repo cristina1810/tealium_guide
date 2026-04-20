@@ -92,7 +92,7 @@ function MessageBubble({ message }) {
   );
 }
 
-function ChatInput({ value, setValue, onSubmit, disabled }) {
+function ChatInput({ value, setValue, onSubmit, disabled, compact }) {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && value.trim()) {
       onSubmit(value.trim());
@@ -102,23 +102,27 @@ function ChatInput({ value, setValue, onSubmit, disabled }) {
 
   return (
     <footer
-      className="shrink-0 p-6 pb-8"
+      className={`shrink-0 ${compact ? 'p-3' : 'p-6 pb-8'}`}
       style={{ backgroundColor: '#f7fafc' }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className={compact ? '' : 'max-w-5xl mx-auto'}>
         <div className="relative group">
-          <div
-            className="absolute -inset-0.5 rounded-2xl blur opacity-75 group-focus-within:opacity-100 transition duration-1000 group-focus-within:duration-200"
-            style={{ backgroundColor: 'rgba(9,95,174,0.05)' }}
-          />
+          {!compact && (
+            <div
+              className="absolute -inset-0.5 rounded-2xl blur opacity-75 group-focus-within:opacity-100 transition duration-1000 group-focus-within:duration-200"
+              style={{ backgroundColor: 'rgba(9,95,174,0.05)' }}
+            />
+          )}
 
-          <div className="relative flex items-center bg-white rounded-xl shadow-[0px_8px_24px_rgba(0,0,0,0.04)] overflow-hidden focus-within:ring-1 focus-within:ring-blue-200">
-            <div className="pl-6 text-slate-400">
-              <Paperclip size={18} />
-            </div>
+          <div className={`relative flex items-center bg-white rounded-xl shadow-[0px_8px_24px_rgba(0,0,0,0.04)] overflow-hidden focus-within:ring-1 focus-within:ring-blue-200`}>
+            {!compact && (
+              <div className="pl-6 text-slate-400">
+                <Paperclip size={18} />
+              </div>
+            )}
 
             <input
-              className="w-full py-6 px-4 bg-transparent border-none focus:ring-0 text-[0.875rem] text-slate-800 placeholder:text-slate-400/60 font-medium outline-none"
+              className={`w-full bg-transparent border-none focus:ring-0 text-slate-800 placeholder:text-slate-400/60 font-medium outline-none ${compact ? 'py-3 px-4 text-[0.8125rem]' : 'py-6 px-4 text-[0.875rem]'}`}
               placeholder="Escribe tu consulta técnica aquí..."
               type="text"
               value={value}
@@ -127,14 +131,16 @@ function ChatInput({ value, setValue, onSubmit, disabled }) {
               disabled={disabled}
             />
 
-            <div className="pr-6 flex items-center gap-4">
-              <div className="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-lg">
-                <Command size={12} className="text-slate-600" />
-                <span className="text-[10px] font-bold text-slate-600">ENTER</span>
-              </div>
+            <div className={`flex items-center gap-4 ${compact ? 'pr-2' : 'pr-6'}`}>
+              {!compact && (
+                <div className="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-lg">
+                  <Command size={12} className="text-slate-600" />
+                  <span className="text-[10px] font-bold text-slate-600">ENTER</span>
+                </div>
+              )}
 
               <button
-                className="w-12 h-12 rounded-xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 shadow-lg text-white"
+                className={`rounded-xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 shadow-lg text-white ${compact ? 'w-9 h-9 m-1' : 'w-12 h-12'}`}
                 style={{
                   background: `linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY_DIM} 100%)`,
                 }}
@@ -146,19 +152,17 @@ function ChatInput({ value, setValue, onSubmit, disabled }) {
                 }}
                 disabled={disabled}
               >
-                <ArrowUp size={20} />
+                <ArrowUp size={compact ? 16 : 20} />
               </button>
             </div>
           </div>
         </div>
-
-       
       </div>
     </footer>
   );
 }
 
-export default function Chat() {
+export default function Chat({ compact = false }) {
   const [messages, setMessages] = useState([
     {
       id: 'welcome',
@@ -250,17 +254,17 @@ export default function Chat() {
 
   return (
     <main
-      className="flex-1 flex flex-col h-screen"
+      className={`flex-1 flex flex-col ${compact ? 'h-full' : 'h-screen'}`}
       style={{ backgroundColor: '#f7fafc' }}
     >
       <header
-        className="h-16 flex items-center justify-between px-10 shrink-0 backdrop-blur-md"
+        className={`flex items-center justify-between shrink-0 backdrop-blur-md ${compact ? 'h-12 px-4' : 'h-16 px-10'}`}
         style={{ backgroundColor: 'rgba(247,250,252,0.9)' }}
       >
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Sparkles size={20} fill={PRIMARY} style={{ color: PRIMARY }} />
-            <h2 className="text-sm font-bold tracking-tight text-slate-800">
+            <Sparkles size={compact ? 16 : 20} fill={PRIMARY} style={{ color: PRIMARY }} />
+            <h2 className={`font-bold tracking-tight text-slate-800 ${compact ? 'text-xs' : 'text-sm'}`}>
               Tealium Assistant
             </h2>
           </div>
@@ -270,8 +274,8 @@ export default function Chat() {
         
       </header>
 
-      <section className="flex-1 overflow-y-auto px-10 py-8 pb-4">
-        <div className="flex flex-col gap-6 max-w-5xl mx-auto w-full">
+      <section className={`flex-1 overflow-y-auto ${compact ? 'px-4 py-4 pb-2' : 'px-10 py-8 pb-4'}`}>
+        <div className={`flex flex-col gap-4 w-full ${compact ? '' : 'gap-6 max-w-5xl mx-auto'}`}>
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
@@ -284,6 +288,7 @@ export default function Chat() {
         setValue={setInputValue}
         onSubmit={sendMessage}
         disabled={loading}
+        compact={compact}
       />
     </main>
   );

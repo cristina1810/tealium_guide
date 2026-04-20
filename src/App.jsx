@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
-import Chat from "./pages/Chat";
 import InterfaceIQ from "./pages/InterfaceIQ";
 import GA4IQ from "./pages/GA4IQ";
 import SnapchatIQ from "./pages/SnapchatIQ";
@@ -10,6 +9,7 @@ import AddToCart from "./components/AddToCart";
 import ChatlingIQ from "./pages/ChatlingIQ";
 import GenConfigIQ from "./pages/GenConfigIQ";
 import NewGenConfig from "./pages/GenConfigIQ";
+import ChatWidget from "./components/ChatWidget";
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -34,7 +34,6 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/chat" element={<Chat />} />
             <Route path="/iq/interfaz" element={<InterfaceIQ />} />
             <Route path="/iq/ga4" element={<GA4IQ />} />
             <Route path="/iq/snapchat" element={<SnapchatIQ />} />
@@ -42,6 +41,8 @@ function App() {
             <Route path="/iq/configuracion" element={<GenConfigIQ />} />
           </Routes>
         </div>
+
+        <ChatWidget />
       </div>
     </BrowserRouter>
   );

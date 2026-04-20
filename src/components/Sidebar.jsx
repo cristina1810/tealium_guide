@@ -14,7 +14,6 @@ import {
 
 const NAV_ITEMS = [
   { to: "/", icon: Home, label: "Página Principal", end: true },
-  { to: "/chat", icon: MessageSquare, label: "Chat" },
 ];
 
 const TEALIUM_IQ_ITEMS = [
