@@ -5,6 +5,7 @@
 Tu proyecto ahora está configurado para funcionar en **Vercel** con Serverless Functions. Aquí están los cambios principales:
 
 ### 📁 Estructura Nueva
+
 ```
 guide/
 ├── api/                    # Serverless Functions
@@ -23,11 +24,13 @@ guide/
 ### 🔑 Paso 1: Preparar variables de entorno
 
 1. En tu terminal local, copia `.env.example` a `.env.local`:
+
 ```bash
 cp .env.example .env.local
 ```
 
 2. Edita `.env.local` con tus credenciales:
+
 ```
 OPENAI_API_KEY=sk-proj-TU-CLAVE-AQUI
 MAIN_AGENT_ID=asst_TU-ID-AQUI
@@ -37,6 +40,7 @@ MAIN_AGENT_ID=asst_TU-ID-AQUI
 
 1. Asegúrate de que `.env.local` está en `.gitignore` (✓ ya está configurado)
 2. Sube tu código a GitHub:
+
 ```bash
 git add .
 git commit -m "Configurar para deployment en Vercel"
@@ -65,6 +69,7 @@ git push origin main
 ### ✅ Paso 5: Re-desplegar
 
 Una vez agregadas las variables:
+
 1. Ve a "Deployments"
 2. Haz clic en los "..." al lado del deployment
 3. Selecciona "Redeploy"
@@ -78,19 +83,25 @@ Una vez agregadas las variables:
 ## ⚠️ Notas Importantes
 
 ### Threads de OpenAI en Producción
+
 Los threads de OpenAI se guardan en memoria (Map). Esto significa que:
+
 - **Problema:** Si el serverless function se reinicia, se pierden los threads
 - **Solución a futuro:** Guardar threads en una base de datos
 
 Para agregar base de datos:
+
 1. Usa MongoDB Atlas (gratis hasta cierto punto)
 2. Modifica `api/utils/threadManager.js` para guardar/recuperar threads de la BD
 
 ### CORS
+
 Ya está configurado para permitir requests desde cualquier origen. Si necesitas restringir:
+
 - Modifica los headers en `api/chat.js` y `api/chat/reset.js`
 
 ### Seguridad
+
 ✓ Las claves de API están protegidas en Vercel (no se exponen)
 ✓ `.env.local` no se sube a Git (está en `.gitignore`)
 ✓ No hay servidor Express ejecutándose innecesariamente
@@ -98,14 +109,17 @@ Ya está configurado para permitir requests desde cualquier origen. Si necesitas
 ## 🐛 Si algo no funciona
 
 ### Error: "MAIN_AGENT_ID no configurado"
+
 - Verifica que agregaste las variables de entorno en Vercel Settings
 - Re-deploya el proyecto después de agregar las variables
 
 ### Error: "API key no válida"
+
 - Revisa que copiastela clave correctamente (sin espacios)
 - Verifica que la clave sigue siendo válida en https://platform.openai.com/api-keys
 
 ### Los endpoints no responden
+
 - Verifica que los archivos en `/api` están correctamente creados
 - Revisa los logs en Vercel Dashboard → Logs
 
