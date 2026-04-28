@@ -1,32 +1,153 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────── */
+/* GLOBAL UX BASELINE                                              */
+/* ─────────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* Focus-visible accesible y consistente con la paleta */
+*:focus-visible {
+  outline: 2px solid #095fae;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selección de texto con el azul de marca */
+::selection {
+  background-color: rgba(9, 95, 174, 0.18);
+  color: #0f172a;
+}
+
+/* Reduce motion para usuarios sensibles */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Atelier gradient (ya usado en algunas páginas) — disponible globalmente */
+.atelier-gradient {
+  background: linear-gradient(135deg, #095fae 0%, #00539b 100%);
+}
+
+/* Cristal sutil para cabeceras / cajas desplegables */
+.bg-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* ANIMATIONS */
+/* ─────────────────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 12px rgba(9, 95, 174, 0.4);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(9, 95, 174, 0.6);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* SCROLLBAR */
+/* ─────────────────────────────────────────────────────────────── */
 
 body {
-font-family: 'Montserrat', sans-serif;
-background-color: #f7fafc;
-color: #283439;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f7fafc;
+  color: #283439;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 ::-webkit-scrollbar {
-width: 4px;
+  width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-background: transparent;
+  background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-background: #dfeaef;
-border-radius: 10px;
+  background: #cbd5e1;
+  border-radius: 10px;
+  transition: background 0.2s;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* MESSAGE BUBBLES */
+/* ─────────────────────────────────────────────────────────────── */
 
 .message-bubble {
 transition: all 0.3s ease-out;
+animation: fadeIn 0.3s ease-out forwards;
 }
 
-.gradient-cta {
-background: linear-gradient(135deg, #095fae 0%, #00539b 100%);
-}
+/* ─────────────────────────────────────────────────────────────── */
+/* MARKDOWN CONTENT */
+/* ─────────────────────────────────────────────────────────────── */
 
-/* Estilos para el contenido markdown del chat */
 .markdown-content {
   font-size: 0.875rem;
   line-height: 1.7;
@@ -45,10 +166,11 @@ background: linear-gradient(135deg, #095fae 0%, #00539b 100%);
 .markdown-content h2,
 .markdown-content h3,
 .markdown-content h4 {
-  font-weight: 600;
+  font-weight: 700;
   color: #1e293b;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
 
 .markdown-content h1:first-child,
@@ -164,9 +286,4 @@ background: linear-gradient(135deg, #095fae 0%, #00539b 100%);
 
 .markdown-content tr:nth-child(even) {
   background-color: #f8fafc;
-}
-
-
-::-webkit-scrollbar {
-width: 4px;
 }

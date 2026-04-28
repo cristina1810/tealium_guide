@@ -64,7 +64,7 @@ const DataLayerStep = ({ num, text }) => (
 const InterfaceIQ = () => {
   return (
     <main
-      className=" mx-auto px-14 py-20 flex flex-col max-w-6xl"
+      className="mx-auto px-6 sm:px-10 lg:px-14 py-12 sm:py-20 flex flex-col max-w-6xl animate-fadeIn"
       style={{ backgroundColor: colors.surface }}
     >
       {/* ── Header ── */}
@@ -84,13 +84,13 @@ const InterfaceIQ = () => {
           </span>
         </div>
         <h2
-          className="text-5xl font-extrabold tracking-tight mb-6 leading-tight"
+          className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 leading-tight"
           style={{ color: colors.onSurface }}
         >
           Navegación por la Interfaz de Tealium iQ
         </h2>
         <p
-          className="text-lg max-w-3xl leading-relaxed"
+          className="text-base sm:text-lg max-w-3xl leading-relaxed"
           style={{ color: colors.onSurfaceVariant }}
         >
           Domine los componentes centrales del Tag Management System. Esta guía
@@ -100,10 +100,10 @@ const InterfaceIQ = () => {
       </header>
 
       {/* ── Bento Grid ── */}
-      <section className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
+      <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 mb-20">
         {/* Dashboard Card — spans 8 */}
         <div
-          className="md:col-span-8 p-10 rounded-lg flex flex-col justify-between"
+          className="md:col-span-8 p-8 sm:p-10 rounded-xl flex flex-col justify-between shadow-sm hover:shadow-lg transition-shadow duration-300 ease-out"
           style={{ backgroundColor: colors.surfaceContainerLowest }}
         >
           <div>
@@ -140,7 +140,7 @@ const InterfaceIQ = () => {
 
         {/* Tags Card — spans 4 */}
         <div
-          className="md:col-span-4 p-10 rounded-lg border-l-4"
+          className="md:col-span-4 p-8 sm:p-10 rounded-xl border-l-4 shadow-sm hover:shadow-md transition-shadow duration-300 ease-out"
           style={{
             backgroundColor: colors.surfaceContainerLow,
             borderLeftColor: colors.primary,
@@ -179,7 +179,7 @@ const InterfaceIQ = () => {
 
         {/* Load Rules Card — spans 4 */}
         <div
-          className="md:col-span-4 p-10 rounded-lg"
+          className="md:col-span-4 p-8 sm:p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 ease-out"
           style={{ backgroundColor: colors.surfaceContainerLowest }}
         >
           <ListFilter
@@ -221,7 +221,7 @@ const InterfaceIQ = () => {
 
         {/* Extensions Card — spans 8 */}
         <div
-          className="md:col-span-8 p-10 rounded-lg flex gap-10 items-center"
+          className="md:col-span-8 p-8 sm:p-10 rounded-xl flex flex-col sm:flex-row gap-8 sm:gap-10 items-center shadow-sm hover:shadow-md transition-shadow duration-300 ease-out"
           style={{ backgroundColor: colors.surfaceContainerHigh }}
         >
           <div className="flex-1">
@@ -256,7 +256,7 @@ const InterfaceIQ = () => {
 
         {/* Data Layer Card — spans 12 */}
         <div
-          className="md:col-span-12 p-10 rounded-lg flex flex-col md:flex-row gap-12 items-start"
+          className="md:col-span-12 p-8 sm:p-10 rounded-xl flex flex-col md:flex-row gap-10 md:gap-12 items-start shadow-sm hover:shadow-md transition-shadow duration-300 ease-out"
           style={{ backgroundColor: colors.surfaceContainerLowest }}
         >
           {/* Left column */}
@@ -309,7 +309,8 @@ const InterfaceIQ = () => {
               capturadas del DOM.
             </p>
             <button
-              className="px-6 py-3 rounded-md text-sm font-bold tracking-tight hover:opacity-90 transition-opacity"
+              type="button"
+              className="px-6 py-3 rounded-md text-sm font-bold tracking-tight shadow-sm hover:shadow-md hover:opacity-95 active:scale-[0.98] transition-all duration-200 ease-out"
               style={{ ...atelierGradient, color: colors.onPrimary }}
             >
               Ver Guía de Implementación UDO
@@ -320,7 +321,7 @@ const InterfaceIQ = () => {
 
       {/* ── Footer ── */}
       <footer
-        className="mt-auto pt-16 flex flex-col md:flex-row justify-between items-center gap-6"
+        className="mt-auto pt-12 sm:pt-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
         style={{
           borderTop: `1px solid ${colors.surfaceContainerHigh}`,
           color: colors.secondaryDim,
@@ -348,15 +349,17 @@ const InterfaceIQ = () => {
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-3 sm:gap-4">
           <button
-            className="text-sm font-bold px-4 py-2 rounded transition-colors hover:bg-[#dfeaef]"
+            type="button"
+            className="text-sm font-bold px-4 py-2 rounded-md transition-colors hover:bg-[#dfeaef] active:scale-[0.98]"
             style={{ color: colors.onPrimaryFixedVariant }}
           >
             Anterior
           </button>
           <button
-            className="px-8 py-2 rounded font-bold text-sm hover:opacity-90 transition-opacity"
+            type="button"
+            className="px-6 sm:px-8 py-2 rounded-md font-bold text-sm shadow-sm hover:shadow-md hover:opacity-95 active:scale-[0.98] transition-all duration-200 ease-out"
             style={{ ...atelierGradient, color: colors.onPrimary }}
           >
             Siguiente Lección

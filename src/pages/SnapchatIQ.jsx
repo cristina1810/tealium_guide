@@ -23,24 +23,24 @@ export default function SnapchatIQ() {
   const [copied, setCopied] = useState(false);
 
   return (
-    <div>
-      <div className="max-w-5xl mx-auto mb-8">
+    <div className="px-4 sm:px-6 lg:px-10 pb-24 animate-fadeIn">
+      <div className="max-w-5xl mx-auto mb-10">
         {/* Título y botón en extremos opuestos */}
-        <div className="flex items-center justify-between mt-8">
-          <span className="text-4xl uppercase tracking-wide">Snapchat </span>
+        <div className="flex flex-wrap items-center justify-between gap-4 mt-8 sm:mt-12">
+          <h1 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-slate-900 leading-tight">Snapchat</h1>
           <VideoButton>Ver vídeo</VideoButton>
         </div>
 
         {/* Caja desplegable */}
-        <div className="text-start bg-white/80 w-full p-4 rounded-lg bg-blur mt-4">
+        <div className="text-start bg-white/80 w-full p-4 rounded-xl bg-blur mt-6 border border-slate-200/60 shadow-sm hover:shadow-md transition-shadow duration-200">
           <div
-            className="flex items-center cursor-pointer select-none"
+            className="flex items-center cursor-pointer select-none text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
             <p>Mostrar detalles del enunciado</p>
             <ChevronDown
               size={16}
-              className={`ms-1 inline-block transition-transform duration-300 ${
+              className={`ms-1.5 inline-block transition-transform duration-300 ${
                 isOpen ? "rotate-180" : "rotate-0"
               }`}
             />
@@ -117,22 +117,22 @@ export default function SnapchatIQ() {
       </div>
       {/* ----------------------------------------------- */}
       {/* Steps */}
-      <div className="max-w-6xl mx-auto space-y-24">
+      <div className="max-w-5xl mx-auto space-y-20 sm:space-y-24">
         {/* Extension 1 */}
         <div className="flex-1">
           <div>
             <div className="flex items-start gap-6 mb-4">
               <StepBox number={1} />
               <div className="flex-1">
-                <div className="rounded-xl overflow-hidden">
+                <div className="rounded-xl overflow-hidden bg-white/60 hover:bg-white/90 border border-slate-200/60 hover:border-slate-200 shadow-sm hover:shadow-md mb-3 transition-all duration-200">
                   {/* Header */}
                   <button
                     onClick={() => setIsOpen1(!isOpen1)}
-                    className="w-full flex items-center justify-between px-5 py-4 "
+                    className="w-full flex items-center justify-between px-5 py-4 sm:px-6 group"
                   >
                     <div className="flex items-center gap-2">
-                      <h3 className="text-xl font-semibold text-slate-800">
-                        Extesión: Add to cart{" "}
+                      <h3 className="text-xl font-semibold tracking-tight text-slate-800 group-hover:text-slate-900 transition-colors">
+                        Extensión: Add to cart
                       </h3>
                     </div>
                   </button>
@@ -150,14 +150,14 @@ export default function SnapchatIQ() {
             <div className="flex items-start gap-6 mb-4">
               <StepBox number={2} />
               <div className="flex-1">
-                <div className="rounded-xl overflow-hidden">
+                <div className="rounded-xl overflow-hidden bg-white/60 hover:bg-white/90 border border-slate-200/60 hover:border-slate-200 shadow-sm hover:shadow-md mb-3 transition-all duration-200">
                   {/* Header */}
                   <button
                     onClick={() => setIsOpen2(!isOpen2)}
-                    className="w-full flex items-center justify-between px-5 py-4 "
+                    className="w-full flex items-center justify-between px-5 py-4 sm:px-6 group"
                   >
                     <div className="flex items-center gap-2">
-                      <h3 className="text-2xl font-semibold text-slate-800">
+                      <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-800 group-hover:text-slate-900 transition-colors">
                         Evento: Add to Cart
                       </h3>
                     </div>
@@ -202,9 +202,9 @@ export default function SnapchatIQ() {
               <StepBox number={3} />
               <div className="flex-1">
                 <div>
-                  <div className="flex items-center mb-3">
-                    <h3 className=" text-2xl">Tag: Snap Pixel</h3>
-                    <ChevronDown size={16} className="ms-1 cursor-pointer" />
+                  <div className="flex items-center mb-3 group cursor-pointer">
+                    <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-800 group-hover:text-slate-900 transition-colors">Tag: Snap Pixel</h3>
+                    <ChevronDown size={16} className="ms-1.5 text-slate-500 group-hover:text-slate-700 transition-colors" />
                   </div>
                   {/* Texto que se oculta */}
                   <div className="mb-3">Explicación ejercicio</div>

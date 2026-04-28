@@ -12,13 +12,15 @@ export default function CopyButton({ text }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+      type="button"
+      aria-label={copied ? "Copiado" : "Copiar al portapapeles"}
+      className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-gray-800 px-2 py-1 rounded-md hover:bg-gray-100 active:scale-[0.97] transition-all duration-200"
       title="Copiar al portapapeles"
     >
       {copied ? (
         <>
-          <Check size={13} className="text-green-500" />
-          <span className="text-green-500">Copiado</span>
+          <Check size={13} className="text-green-600 animate-fadeIn" />
+          <span className="text-green-600">Copiado</span>
         </>
       ) : (
         <>
