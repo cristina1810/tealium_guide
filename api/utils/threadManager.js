@@ -75,7 +75,7 @@ function deleteThread(sessionId) {
   }
 }
 
-module.exports = {
+export {
   getOrCreateThread,
   runAssistant,
   deleteThread,

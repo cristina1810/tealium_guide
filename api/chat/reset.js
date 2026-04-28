@@ -1,5 +1,5 @@
-const { openai } = require('../utils/openai');
-const { deleteThread, sessionThreads } = require('../utils/threadManager');
+import { openai } from '../utils/openai.js';
+import { deleteThread, sessionThreads } from '../utils/threadManager.js';
 
 export default async function handler(req, res) {
   // Habilitar CORS

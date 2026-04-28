@@ -1,5 +1,5 @@
-const { openai } = require('./utils/openai');
-const { getOrCreateThread, runAssistant } = require('./utils/threadManager');
+import { openai } from './utils/openai.js';
+import { getOrCreateThread, runAssistant } from './utils/threadManager.js';
 
 const MAIN_AGENT_ID = process.env.MAIN_AGENT_ID;
 
